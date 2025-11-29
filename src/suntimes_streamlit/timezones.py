@@ -38,3 +38,47 @@ def get_tzinfo(
     # 
     tz_info = timezone(timedelta(hours=0), tz_name)
     return tz_name, tz_info
+
+def convert_UTC_to_local(
+    dt_utc: datetime,
+    lat: float,
+    lon: float,
+):
+    """ 
+    Convert a UTC datetime to local time based on the given latitude and longitude.
+
+    Parameters
+    ----------
+    dt_utc : datetime
+        The datetime in UTC to be converted.
+    lat : float
+        The latitude of the location.
+    lon : float
+        The longitude of the location.
+    
+    Returns
+    -------
+    dt_local : datetime
+        The datetime converted to local time.
+    """
+    # Verify argument types
+    if not isinstance(dt_utc, datetime):
+        raise TypeError(f"(convert_UTC_to_local) `dt_utc` must be a datetime object. Got type: {type(dt_utc)}")
+    if not isinstance(lat, (float, int)):
+        raise TypeError(f"(convert_UTC_to_local) `lat` must be a float or int. Got type: {type(lat)}")
+    if not isinstance(lon, (float, int)):
+        raise TypeError(f"(convert_UTC_to_local) `lon` must be a float or int. Got type: {type(lon)}")
+    
+    # Get the local timezone info
+    local_name, local_info = get_tzinfo(lat, lon)
+    # Get the UTC timezone info
+    utc_info = timezone(timedelta(hours=0), "UTC")
+
+    # Assign the UTC timezone info to the given datetime
+    dt_utc = dt_utc.replace(tzinfo=utc_info)
+    # Convert from UTC to local time
+    try:
+        dt_local = dt_utc.astimezone(local_name)
+    except:
+        dt_local = dt_utc.astimezone(local_info)
+    return dt_local
