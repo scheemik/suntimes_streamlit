@@ -32,3 +32,35 @@ def test_make_time_frame():
         assert df['date'].iloc[0] == pd.Timestamp(case["start"]), f"Expected start date {case['start']}, got {df['date'].iloc[0]}"
         assert df['date'].iloc[-1] == pd.Timestamp(case["end"]), f"Expected end date {case['end']}, got {df['date'].iloc[-1]}"
 
+def test_verify_suntime():
+    """Test the verify_suntime function."""
+    # Define valid suntimes
+    valid_suntimes = [
+        'sunrise',
+        'sunset',
+        'dawn',
+        'dusk',
+    ]
+    # Test valid suntimes
+    for suntime in valid_suntimes:
+        assert tarrs.verify_suntime(suntime) == True, f"Expected {suntime} to be valid."
+    # Define invalid suntimes
+    invalid_suntimes = [
+        'invalid_time',
+        1234,
+        42.0,
+        None,
+        True,
+        {},
+        [],
+    ]
+    # Test invalid suntimes
+    for suntime in invalid_suntimes:
+        try:
+            result = tarrs.verify_suntime(suntime)
+            assert result == False, f"Expected {suntime} to be invalid."
+            continue
+        except TypeError:
+            assert True, f"verify_suntime raised an exception on invalid input: {e}"
+        else:
+            assert False, f"verify_suntime did not raise an exception on invalid input: {suntime}"
