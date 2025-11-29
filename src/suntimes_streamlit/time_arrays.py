@@ -40,3 +40,46 @@ def make_time_frame(
     # Create the DataFrame
     df = pd.DataFrame({'date': pd.date_range(start=start, end=end)})
     return df
+
+def verify_suntime(
+    suntime : str,
+):
+    """ 
+    Verify that the provided suntime is included in the suncalc.get_times output.
+
+    Parameters
+    ----------
+    suntime : str
+        The suntime name to verify.
+    
+    Returns
+    -------
+    bool
+        True if the suntime is valid, False otherwise.
+    """
+    # Verify argument type
+    if not isinstance(suntime, str):
+        raise TypeError(f"(verify_suntime) `suntime` must be a string. Got type: {type(suntime)}")
+    
+    # Create list of valid suntimes
+    valid_suntimes = [
+        'solar_noon',
+        'nadir',
+        'sunrise',
+        'sunset',
+        'sunrise_end',
+        'sunset_start',
+        'dawn',
+        'dusk',
+        'nautical_dawn',
+        'nautical_dusk',
+        'night_end',
+        'night',
+        'golden_hour_end',
+        'golden_hour',
+    ]
+    # Check whether the given suntime is in the above list
+    if suntime in valid_suntimes:
+        return True
+    else:
+        return False
