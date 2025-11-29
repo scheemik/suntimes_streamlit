@@ -41,6 +41,60 @@ def make_time_frame(
     df = pd.DataFrame({'date': pd.date_range(start=start, end=end)})
     return df
 
+def make_suntimes_frame(
+    start : str,
+    end : str,
+    lat : float,
+    lon : float,
+    suntimes = [
+        'sunrise',
+        'sunset',
+    ]
+):
+    """ 
+    Create a pandas Dataframe with dates between the specified start and end,
+    and columns for the specified suntimes, from the suncalc package.
+
+    Parameters
+    ----------
+    start : str
+        The start date in 'YYYY-MM-DD' format.
+    end : str
+        The end date in 'YYYY-MM-DD' format.
+    lat : float
+        Latitude of the location.
+    lon : float
+        Longitude of the location.
+    suntimes : list
+        List of suntimes to include as columns in the DataFrame.
+    
+    Returns
+    -------
+    df : pd.DataFrame
+        DataFrame containing a 'date' column with dates from start to end,
+        and columns for the specified suntimes.
+    """
+    # Verify argument types
+    ## Types for `start` and `end` verified in `make_time_frame`
+    time_df = make_time_frame(start=start, end=end)
+    if not isinstance(lat, (float, int)):
+        raise TypeError(f"(make_suntimes_frame) `lat` must be a float or int. Got type: {type(lat)}")
+    if not isinstance(lon, (float, int)):
+        raise TypeError(f"(make_suntimes_frame) `lon` must be a float or int. Got type: {type(lon)}")
+    for suntime in suntimes:
+        if not verify_suntime(suntime):
+            raise ValueError(f"(make_suntimes_frame) Invalid suntime: {suntime}")
+    
+    # Get times using suncalc
+    suntimes_df = get_times(time_df['date'], [lon]*len(time_df), [lat]*len(time_df))
+    # Add specified suntimes to the DataFrame
+    for suntime in suntimes:
+        # Add to DataFrame
+        time_df[suntime] = suntimes_df[suntime]
+        # Convert from UTC to local time
+        time_df[f"local_{suntime}"] = time_df[suntime].apply(lambda dt: convert_UTC_to_local(dt, lat, lon))
+    return time_df
+
 def verify_suntime(
     suntime : str,
 ):
