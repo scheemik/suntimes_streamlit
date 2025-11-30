@@ -28,6 +28,11 @@ def get_tzinfo(
     >>> get_tz(43.0, -79.0)
     'America/Toronto'
     """
+    # Verify argument types
+    if not isinstance(lat, (float, int)):
+        raise TypeError(f"(convert_UTC_to_local) `lat` must be a float or int. Got type: {type(lat)}")
+    if not isinstance(lon, (float, int)):
+        raise TypeError(f"(convert_UTC_to_local) `lon` must be a float or int. Got type: {type(lon)}")
     # Verify that latitude and longitude are within valid ranges
     if not (-90 <= lat <= 90):
         raise ValueError("Latitude must be between -90 and 90 degrees.")
