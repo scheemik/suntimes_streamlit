@@ -23,6 +23,37 @@ def test_get_tzinfo():
     for case in test_cases:
         tz_name, tz_info = tzs.get_tzinfo(case["lat"], case["lon"])
         assert tz_name == case["expected_tz_name"], f"Expected {case['expected_tz_name']}, got {tz_name}"
+    # Define invalid test cases for longitude
+    invalid_lons = [
+        -200,
+        200,
+        '100',
+        nan,
+        None,
+        [],
+        {},
+    ]
+    # Test each invalid longitude
+    for invalid_lon in invalid_lons:
+        try:
+            tzs.get_tzinfo(43.0, invalid_lon)
+        except:
+            assert True, f"get_tzinfo raised an exception on invalid lon: {invalid_lon}"
+        else:
+            assert False, f"Expected exception for invalid lon: {invalid_lon}"
+    # Define invalid test cases for latitude
+    invalid_lats = [
+        -99,
+        99,
+    ] + invalid_lons
+    # Test each invalid longitude
+    for invalid_lat in invalid_lats:
+        try:
+            tzs.get_tzinfo(invalid_lat, -79.0)
+        except:
+            assert True, f"get_tzinfo raised an exception on invalid lat: {invalid_lat}"
+        else:
+            assert False, f"Expected exception for invalid lat: {invalid_lat}"
 
 def test_convert_UTC_to_local():
     """Test the convert_UTC_to_local function."""
