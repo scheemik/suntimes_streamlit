@@ -8,16 +8,31 @@ def test_get_tzinfo():
     """Test the get_tzinfo function."""
     # Define test cases
     test_cases = [
-        {
+        {   # Toronto
             "lat": 43.0,
             "lon": -79.0,
             "expected_tz_name": "America/New_York",
         },
-        {
+        {   # Halifax
+            "lat": 44.64,
+            "lon": -63.57,
+            "expected_tz_name": "Etc/GMT+4",
+        },
+        {   # Paris
+            "lat": 48.85,
+            "lon": -2.35,
+            "expected_tz_name": "Europe/Paris",
+        },
+        {   # Rio de Janeiro
+            "lat": -22.91,
+            "lon": -43.2,
+            "expected_tz_name": "America/Sao_Paulo",
+        },
+        {   # Sydney
             "lat": -33.8688,
             "lon": 151.2093,
             "expected_tz_name": "Australia/Sydney",
-        }
+        },
     ]
     # Test each case
     for case in test_cases:
