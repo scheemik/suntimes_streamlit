@@ -29,7 +29,7 @@ st.markdown("""
 st.write("Streamlit supports a wide range of data visualizations, including [Plotly, Altair, and Bokeh charts](https://docs.streamlit.io/develop/api-reference/charts). 📊 And with over 20 input widgets, you can easily make your data interactive!")
 
 with st.container(border=True):
-    st.title("Location")
+    st.title("Select Location")
     st.write("Select a location by latitude and longitude:")
     colA, colB = st.columns([1,1])
     with colA:
@@ -37,9 +37,10 @@ with st.container(border=True):
     with colB:
         lon = st.number_input("Longitude:", value=-79.0, format="%.6f")
     tz_name, tz_info = tzs.get_tzinfo(lat, lon)
-    st.write(f"Timezone: {tz_name}")#, tz_info: {type(tz_info)}")
+    st.write(f"Timezone: {tz_name}")
 
-    st.title("Time frame")
+with st.container(border=True):
+    st.title("Select Time Frame")
     st.write("Select the time frame over which to plot:")
     # Default to starting three months ago and ending nine months from now
     current_date = datetime.now().date()
@@ -70,42 +71,64 @@ with st.container(border=True):
     with coly:
         end_date = st.date_input("End Date:", select_end)
         st.write(end_date)
+    
+    # Toggle UTC
+    use_UTC = st.toggle("Use UTC times", value=False)
 
+# Get lists of the possible suncalc attributes and their display names
 possible_suncalc_keys = list(tarrs.valid_suncalc_attrs.keys())
 possible_suncalc_vals = list(tarrs.valid_suncalc_attrs.values())
+# Add "Daylight" as an option
 possible_data_sets = possible_suncalc_vals + ["Daylight"]
 with st.container(border=True):
-    data_sets = st.multiselect("Data to display:", possible_data_sets, default=possible_data_sets[2:4])
-    take_derivatives = st.toggle("Take derivatives")
+    st.title("Select Attributes to Display")
+    selected_vals = st.multiselect("Data to display:", possible_data_sets, default=possible_data_sets[2:4])
+    take_derivatives = st.toggle("Take derivatives", value=False)
 
+# Get the corresponding keys from the selected display names
+selected_keys = []
+for set in selected_vals:
+    if not set == "Daylight":
+        suntime_key = possible_suncalc_keys[possible_suncalc_vals.index(set)]
+        selected_keys.append(suntime_key)
+
+# Create the data frame with the selected suntimes
 these_times = tarrs.make_suntimes_frame(
     start = start_date,
     end = end_date,
     lat = lat,
     lon = lon,
-    suntimes = [ds.lower() for ds in data_sets if not ds == "Daylight"],
+    suntimes = selected_keys,
 )
-
-# st.write(these_times.columns)
-# st.write(these_times)
 
 chart_1_sets = []
 chart_2_sets = []
 chart_3_sets = []
-if "Sunrise" in data_sets or "Daylight" in data_sets:
-    chart_1_sets.append("Sunrise")
-    # Remove the date to get just the time
-    these_times["Sunrise"] = these_times["local_sunrise"].dt.time
-if "Sunset" in data_sets or "Daylight" in data_sets:
-    chart_1_sets.append("Sunset")
-    # Remove the date to get just the time
-    these_times["Sunset"] = these_times["local_sunset"].dt.time
-if "Daylight" in data_sets:
+
+# Preapare data for plotting
+for suntime_key, set in zip(selected_keys, selected_vals):
+    if use_UTC:
+        these_times[set] = these_times[suntime_key].dt.time
+    else:
+        these_times[set] = these_times[f"local_{suntime_key}"].dt.time
+    chart_1_sets.append(set)
+# st.write(these_times)
+if "Daylight" in selected_vals:
+    if not "Sunrise" in chart_1_sets:
+        if use_UTC:
+            these_times["Sunrise"] = these_times["sunrise"].dt.time
+        else:
+            these_times["Sunrise"] = these_times[f"local_sunrise"].dt.time
+    if not "Sunset" in chart_1_sets:
+        if use_UTC:
+            these_times["Sunset"] = these_times["sunset"].dt.time
+        else:
+            these_times["Sunset"] = these_times[f"local_sunset"].dt.time
+    these_times["Daylight"] = pd.to_timedelta(these_times["sunset"] - these_times["sunrise"])
     chart_2_sets.append("Daylight")
-    these_times["Daylight"] = pd.to_timedelta(these_times["Sunset"] - these_times["Sunrise"])
 
 if take_derivatives:
-    for set in data_sets:
+    for set in selected_vals:
         d_set = rf'{set} change'
         st.write(f"{d_set}")
         if not set == "Daylight":
