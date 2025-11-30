@@ -42,7 +42,9 @@ def get_tzinfo(
         raise ValueError("Longitude must be between -180 and 180 degrees.")
     # Get the timezone name
     tz_name = tf.timezone_at(lng=lon, lat=lat)
-    # 
+    # If no timezone is found, default to UTC
+    if isinstance(tz_name, type(None)):
+        tz_name = "UTC"
     tz_info = timezone(timedelta(hours=0), tz_name)
     return tz_name, tz_info
 
