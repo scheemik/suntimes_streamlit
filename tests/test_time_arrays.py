@@ -1,4 +1,5 @@
 import pandas as pd
+import datetime
 
 from suntimes_streamlit import time_arrays as tarrs
 
@@ -19,6 +20,21 @@ def test_make_time_frame():
         {
             "start": "2020-01-01",
             "end": "2024-12-31",
+            "expected_length": 1827,
+        },
+        {
+            "start": datetime.date(2020, 1, 1),
+            "end": "2020-01-10",
+            "expected_length": 10,
+        },
+        {
+            "start": "2020-01-01",
+            "end": datetime.date(2020, 12, 31),
+            "expected_length": 366,
+        },
+        {
+            "start": datetime.date(2020, 1, 1),
+            "end": datetime.date(2024, 12, 31),
             "expected_length": 1827,
         },
     ]
