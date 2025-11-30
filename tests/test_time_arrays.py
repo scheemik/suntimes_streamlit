@@ -51,12 +51,7 @@ def test_make_time_frame():
 def test_verify_suntime():
     """Test the verify_suntime function."""
     # Define valid suntimes
-    valid_suntimes = [
-        'sunrise',
-        'sunset',
-        'dawn',
-        'dusk',
-    ]
+    valid_suntimes = tarrs.valid_suncalc_attrs.keys()
     # Test valid suntimes
     for suntime in valid_suntimes:
         assert tarrs.verify_suntime(suntime) == True, f"Expected {suntime} to be valid."
