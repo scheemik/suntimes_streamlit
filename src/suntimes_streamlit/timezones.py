@@ -1,6 +1,8 @@
 from datetime import timezone, tzinfo, timedelta, datetime
 from timezonefinder import TimezoneFinderL
 tf = TimezoneFinderL(in_memory=True)
+from pandas import Timestamp, NaT
+from numpy import nan
 
 def get_tzinfo(
     lat: float,
@@ -67,12 +69,15 @@ def convert_UTC_to_local(
         The datetime converted to local time.
     """
     # Verify argument types
-    if not isinstance(dt_utc, datetime):
-        raise TypeError(f"(convert_UTC_to_local) `dt_utc` must be a datetime object. Got type: {type(dt_utc)}")
-    if not isinstance(lat, (float, int)):
-        raise TypeError(f"(convert_UTC_to_local) `lat` must be a float or int. Got type: {type(lat)}")
-    if not isinstance(lon, (float, int)):
-        raise TypeError(f"(convert_UTC_to_local) `lon` must be a float or int. Got type: {type(lon)}")
+    if isinstance(dt_utc, datetime):
+        # Convert to pd.Timestamp as this allows the conversion to work
+        dt_utc = Timestamp(dt_utc)
+    if isinstance(dt_utc, type(NaT)):
+        # Return the given time if input is Not a Time
+        return dt_utc
+    if not isinstance(dt_utc, Timestamp):
+        raise TypeError(f"(convert_UTC_to_local) `dt_utc` must be a Timestamp object. Got type: {type(dt_utc)}")
+    # Note: `get_tzinfo()` verifies lat and lon are valid types and in valid ranges
     
     # Get the local timezone info
     local_name, local_info = get_tzinfo(lat, lon)
