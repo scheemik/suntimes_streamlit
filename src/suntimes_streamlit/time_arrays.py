@@ -1,4 +1,5 @@
 import pandas as pd
+import datetime
 from suncalc import get_times
 
 from suntimes_streamlit.timezones import convert_UTC_to_local
@@ -12,9 +13,9 @@ def make_time_frame(
 
     Parameters
     ----------
-    start : str
+    start : str, datetime.date
         The start date in 'YYYY-MM-DD' format.
-    end : str
+    end : str, datetime.date
         The end date in 'YYYY-MM-DD' format.
     
     Returns
@@ -23,9 +24,9 @@ def make_time_frame(
         DataFrame containing a 'date' column with dates from start to end.
     """
     # Verify argument types
-    if not isinstance(start, str):
+    if not isinstance(start, (str, datetime.date)):
         raise TypeError(f"(make_time_frame) `start` must be a string. Got type: {type(start)}")
-    if not isinstance(end, str):
+    if not isinstance(end, (str, datetime.date)):
         raise TypeError(f"(make_time_frame) `end` must be a string. Got type: {type(end)}")
     # Verify the date format
     try:
