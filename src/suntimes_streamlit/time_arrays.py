@@ -2,6 +2,24 @@ import pandas as pd
 import datetime
 from suncalc import get_times
 
+# Create list of valid attributes from suncalc.get_times output
+valid_suncalc_attrs = {
+    'solar_noon': 'Solar Noon',
+    'nadir': 'Nadir',
+    'sunrise': 'Sunrise',
+    'sunset': 'Sunset',
+    'sunrise_end': 'Sunrise End',
+    'sunset_start': 'Sunrise Start',
+    'dawn': 'Dawn',
+    'dusk': 'Dusk',
+    'nautical_dawn': 'Nautical Dawn',
+    'nautical_dusk': 'Nautical Dusk',
+    'night_end': 'Night End',
+    'night': 'Night',
+    'golden_hour_end': 'Golden Hour End',
+    'golden_hour': 'Golden Hour',
+}
+
 from suntimes_streamlit.timezones import convert_UTC_to_local
 
 def make_time_frame(
@@ -116,25 +134,8 @@ def verify_suntime(
     if not isinstance(suntime, str):
         raise TypeError(f"(verify_suntime) `suntime` must be a string. Got type: {type(suntime)}")
     
-    # Create list of valid suntimes
-    valid_suntimes = [
-        'solar_noon',
-        'nadir',
-        'sunrise',
-        'sunset',
-        'sunrise_end',
-        'sunset_start',
-        'dawn',
-        'dusk',
-        'nautical_dawn',
-        'nautical_dusk',
-        'night_end',
-        'night',
-        'golden_hour_end',
-        'golden_hour',
-    ]
     # Check whether the given suntime is in the above list
-    if suntime in valid_suntimes:
+    if suntime in valid_suncalc_attrs.keys():
         return True
     else:
         return False
