@@ -80,17 +80,17 @@ with st.container(border=True):
 possible_suncalc_keys = list(tarrs.valid_suncalc_attrs.keys())
 possible_suncalc_vals = list(tarrs.valid_suncalc_attrs.values())
 # Add "Daylight" as an option
-possible_data_sets = possible_suncalc_vals + ["Daylight"]
+possible_data_vars = possible_suncalc_vals + ["Daylight"]
 with st.container(border=True):
     st.title("Select Attributes to Display")
-    selected_vals = st.multiselect("Data to display:", possible_data_sets, default=possible_data_sets[2:4])
+    selected_vars = st.multiselect("Data to display:", possible_data_vars, default=possible_data_vars[2:4])
     take_derivatives = st.toggle("Take derivatives", value=False)
 
 # Get the corresponding keys from the selected display names
 selected_keys = []
-for set in selected_vals:
-    if not set == "Daylight":
-        suntime_key = possible_suncalc_keys[possible_suncalc_vals.index(set)]
+for var in selected_vars:
+    if not var == "Daylight":
+        suntime_key = possible_suncalc_keys[possible_suncalc_vals.index(var)]
         selected_keys.append(suntime_key)
 
 # Create the data frame with the selected suntimes
@@ -102,56 +102,58 @@ these_times = tarrs.make_suntimes_frame(
     suntimes = selected_keys,
 )
 
-chart_1_sets = []
-chart_2_sets = []
-chart_3_sets = []
+chart_1_vars = []
+chart_2_vars = []
+chart_3_vars = []
 
 # Preapare data for plotting
-for suntime_key, set in zip(selected_keys, selected_vals):
+for suntime_key, var in zip(selected_keys, selected_vars):
     if use_UTC:
-        these_times[set] = these_times[suntime_key].dt.time
+        these_times[var] = these_times[suntime_key].dt.time
     else:
+        these_times[var] = these_times[f"local_{suntime_key}"].dt.time
+    chart_1_vars.append(var)
         these_times[set] = these_times[f"local_{suntime_key}"].dt.time
     chart_1_sets.append(set)
 # st.write(these_times)
-if "Daylight" in selected_vals:
-    if not "Sunrise" in chart_1_sets:
+if "Daylight" in selected_vars:
+    if not "Sunrise" in chart_1_vars:
         if use_UTC:
             these_times["Sunrise"] = these_times["sunrise"].dt.time
         else:
             these_times["Sunrise"] = these_times[f"local_sunrise"].dt.time
-    if not "Sunset" in chart_1_sets:
+    if not "Sunset" in chart_1_vars:
         if use_UTC:
             these_times["Sunset"] = these_times["sunset"].dt.time
         else:
             these_times["Sunset"] = these_times[f"local_sunset"].dt.time
     these_times["Daylight"] = pd.to_timedelta(these_times["sunset"] - these_times["sunrise"])
-    chart_2_sets.append("Daylight")
+    chart_2_vars.append("Daylight")
     st.write(these_times["Daylight"].values[0])
 
 if take_derivatives:
-    for set in selected_vals:
-        d_set = rf'{set} change'
-        st.write(f"{d_set}")
-        if not set == "Daylight":
-            chart_3_sets.append(d_set)
-            data[f"n_min_{set}"] = (data[set] - np.datetime64(test_date)).dt.total_seconds() / 60
-            data[d_set] = data[f"n_min_{set}"].diff()
+    for var in selected_vars:
+        d_var = rf'{var} change'
+        st.write(f"{d_var}")
+        if not var == "Daylight":
+            chart_3_vars.append(d_var)
+            data[f"n_min_{var}"] = (data[var] - np.datetime64(test_date)).dt.total_seconds() / 60
+            data[d_var] = data[f"n_min_{var}"].diff()
 
-# st.write(f"chart_1_sets: {chart_1_sets}")
-# st.write(f"chart_2_sets: {chart_2_sets}")
-# st.write(f"chart_3_sets: {chart_3_sets}")
+# st.write(f"chart_1_vars: {chart_1_vars}")
+# st.write(f"chart_2_vars: {chart_2_vars}")
+# st.write(f"chart_3_vars: {chart_3_vars}")
 
 # Look at this site for mouse-over tools:
 # https://docs.streamlit.io/develop/tutorials/elements/annotate-an-altair-chart
 
 tab1, tab2, tab3 = st.tabs(["Chart", "Dataframe", "Testing"])
-if len(chart_1_sets) > 0:
-    chart_1_sets.append('date')
-    # tab1.line_chart(these_times[chart_1_sets], x='date', x_label="Date", y_label=f"Time", height=250)
-    # Create an Altair line chart with the selected sets, and with mouse-over tooltips showing the date and time values
-    # Melt the dataframe so that there is a "symbol" column with the set name, and a "value" column with the time value
-    chart_1_sets_melted = these_times.melt(id_vars=['date'], value_vars=chart_1_sets[:-1], var_name='symbol', value_name='times')
+if len(chart_1_vars) > 0:
+    chart_1_vars.append('date')
+    # tab1.line_chart(these_times[chart_1_vars], x='date', x_label="Date", y_label=f"Time", height=250)
+    # Create an Altair line chart with the selected vars, and with mouse-over tooltips showing the date and time values
+    # Melt the dataframe so that there is a "symbol" column with the var name, and a "value" column with the time value
+    chart_1_vars_melted = these_times.melt(id_vars=['date'], value_vars=chart_1_vars[:-1], var_name='symbol', value_name='times')
     # Convert time objects (including tz-aware times) to temporal datetimes for charting.
     chart_1_sets_melted['times_temporal'] = chart_1_sets_melted['times'].apply(
         lambda t: pd.NaT if pd.isna(t) else datetime.combine(datetime(2000, 1, 1), t.replace(tzinfo=None))
@@ -163,7 +165,7 @@ if len(chart_1_sets) > 0:
         empty='none',
     )
     lines = (
-        alt.Chart(chart_1_sets_melted, title="Suntimes")
+        alt.Chart(chart_1_vars_melted, title="Suntimes")
         .mark_line()
         .encode(
             x=alt.X('date:T', title='Date'),
@@ -172,7 +174,7 @@ if len(chart_1_sets) > 0:
         )
     )
     points = lines.transform_filter(hover).mark_circle(size=65)
-    tooltips = alt.Chart(chart_1_sets_melted).mark_rule().encode(
+    tooltips = alt.Chart(chart_1_vars_melted).mark_rule().encode(
         x='date:T',
         opacity=alt.condition(hover, alt.value(0.3), alt.value(0)),
         tooltip=[
@@ -185,11 +187,11 @@ if len(chart_1_sets) > 0:
     chart = lines + points + tooltips
     tab1.altair_chart(chart, use_container_width=True)
 
-if len(chart_2_sets) > 0:
-    chart_2_sets.append('date')
-    tab1.line_chart(these_times[chart_2_sets], x='date', x_label="Date", y_label=f"Time", height=250)
-if len(chart_3_sets) > 0:
-    chart_3_sets.append('date')
-    tab1.line_chart(these_times[chart_3_sets], x='date', x_label="Date", y_label=f"Change (minutes / day)", height=250)
+if len(chart_2_vars) > 0:
+    chart_2_vars.append('date')
+    tab1.line_chart(these_times[chart_2_vars], x='date', x_label="Date", y_label=f"Time", height=250)
+if len(chart_3_vars) > 0:
+    chart_3_vars.append('date')
+    tab1.line_chart(these_times[chart_3_vars], x='date', x_label="Date", y_label=f"Change (minutes / day)", height=250)
 tab2.dataframe(these_times, height=250, width="stretch")
-tab2.dataframe(chart_1_sets_melted, height=250, width="stretch")
+tab2.dataframe(chart_1_vars_melted, height=250, width="stretch")
