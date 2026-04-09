@@ -115,9 +115,7 @@ for suntime_key, var in zip(selected_keys, selected_vars):
     else:
         these_times[var] = these_times[f"local_{suntime_key}"].dt.time
     chart_1_vars.append(var)
-        these_times[set] = these_times[f"local_{suntime_key}"].dt.time
-    chart_1_sets.append(set)
-# st.write(these_times)
+
 if "Daylight" in selected_vars:
     if not "Sunrise" in chart_1_vars:
         if use_UTC:
@@ -151,11 +149,10 @@ if take_derivatives:
 
 tab1, tab2, tab3 = st.tabs(["Chart", "Dataframe", "Testing"])
 if len(chart_1_vars) > 0:
+    # Add the date column to the vars to plot
     chart_1_vars.append('date')
-    # tab1.line_chart(these_times[chart_1_vars], x='date', x_label="Date", y_label=f"Time", height=250)
-    # Create an Altair line chart with the selected vars, and with mouse-over tooltips showing the date and time values
-    # Melt the dataframe so that there is a "symbol" column with the var name, and a "value" column with the time value
-    chart_1_vars_melted = these_times.melt(id_vars=['date'], value_vars=chart_1_vars[:-1], var_name='symbol', value_name='times')
+    # Melt the dataframe to have a "symbol" column for the suntime type and a "times" column for the time values, to use in Altair plotting.
+    these_times_melted = sun_plts.format.melt_dataset(these_times, id_vars=['date'], val_vars=chart_1_vars[:-1])
     # Convert time objects (including tz-aware times) to temporal datetimes for charting.
     chart_1_sets_melted['times_temporal'] = chart_1_sets_melted['times'].apply(
         lambda t: pd.NaT if pd.isna(t) else datetime.combine(datetime(2000, 1, 1), t.replace(tzinfo=None))
