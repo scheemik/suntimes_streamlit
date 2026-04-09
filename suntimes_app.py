@@ -89,6 +89,8 @@ with st.container(border=True):
     selected_vars = st.multiselect("Data to display:", possible_data_vars, default=possible_data_vars[2:4])
     take_derivatives = st.toggle("Take derivatives", value=False)
 
+######################################################################
+st.header("Plots")
 # Get the corresponding keys from the selected display names
 selected_keys = []
 for var in selected_vars:
