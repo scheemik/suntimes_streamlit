@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import pandas as pd
 from numpy import nan
 
@@ -9,13 +9,13 @@ test_cases = {
         {
             "lat": 43.0,
             "lon": -79.0,
-            "expected_tz_name": "America/New_York",
+            "expected_tz_name": "America/Toronto",
         },
     "Cambridge Bay":
         {
             "lat": 69.12,
             "lon": -105.06,
-            "expected_tz_name": "America/Denver",
+            "expected_tz_name": "America/Cambridge_Bay",
         },
     "Halifax":
         {   # I don't know why, but the actual coordinates of Halifax (44.65, -63.57) return "Etc/GMT+4" instead of "America/Halifax". This is likely due to the timezone database and how it handles certain locations.
@@ -23,7 +23,7 @@ test_cases = {
             # "lon": -63.57,
             "lat": 45.0,
             "lon": -63.5,
-            "expected_tz_name": "Etc/GMT+4",
+            "expected_tz_name": "America/Halifax",
         },
     "St. John's":
         {   # Similar to Halifax, the actual coordinates of St. John's (47.56, -52.71) return "Etc/GMT+4" instead of "America/St_Johns". This is likely due to the timezone database and how it handles certain locations.
@@ -53,12 +53,50 @@ test_cases = {
         },
 }
 
+def test_get_tzname():
+    """Test the get_tzname function."""
+    # Test each case
+    for case in test_cases.values():
+        tz_name = tzs.get_tzname(case["lat"], case["lon"])
+        assert tz_name == case["expected_tz_name"], f"Expected {case['expected_tz_name']}, got {tz_name}"
+    # Define invalid test cases for longitude
+    invalid_lons = [
+        -200,
+        200,
+        '100',
+        nan,
+        None,
+        [],
+        {},
+    ]
+    # Test each invalid longitude
+    for invalid_lon in invalid_lons:
+        try:
+            tzs.get_tzname(43.0, invalid_lon)
+        except:
+            assert True, f"get_tzname raised an exception on invalid lon: {invalid_lon}"
+        else:
+            assert False, f"Expected exception for invalid lon: {invalid_lon}"
+    # Define invalid test cases for latitude
+    invalid_lats = [
+        -99,
+        99,
+    ] + invalid_lons
+    # Test each invalid longitude
+    for invalid_lat in invalid_lats:
+        try:
+            tzs.get_tzname(invalid_lat, -79.0)
+        except:
+            assert True, f"get_tzname raised an exception on invalid lat: {invalid_lat}"
+        else:
+            assert False, f"Expected exception for invalid lat: {invalid_lat}"
+
 def test_get_tzinfo():
     """Test the get_tzinfo function."""
     # Test each case
     for case in test_cases.values():
-        tz_name, tz_info = tzs.get_tzinfo(case["lat"], case["lon"])
-        assert tz_name == case["expected_tz_name"], f"Expected {case['expected_tz_name']}, got {tz_name}"
+        tz_info = tzs.get_tzinfo(tz_name=case["expected_tz_name"])
+        assert tz_info == timezone(timedelta(hours=0), case["expected_tz_name"]), f"Expected {case['expected_tz_name']}, got {tz_name}"
     # Define invalid test cases for longitude
     invalid_lons = [
         -200,

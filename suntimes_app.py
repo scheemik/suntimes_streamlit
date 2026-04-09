@@ -40,7 +40,8 @@ with st.container(border=True):
         lat = st.number_input("Latitude:", value=43.0, format="%.6f")
     with colB:
         lon = st.number_input("Longitude:", value=-79.0, format="%.6f")
-    tz_name, tz_info = tzs.get_tzinfo(lat, lon)
+    tz_name = tzs.get_tzname(lat, lon)
+    tz_info = tzs.get_tzinfo(tz_name=tz_name)
     st.write(f"Timezone: {tz_name}")
 
 with st.container(border=True):

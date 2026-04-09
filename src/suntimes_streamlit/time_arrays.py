@@ -111,7 +111,7 @@ def make_suntimes_frame(
         # Add to DataFrame
         time_df[suntime] = suntimes_df[suntime]
         # Convert from UTC to local time
-        time_df[f"local_{suntime}"] = time_df[suntime].apply(lambda dt: convert_UTC_to_local(dt, lat, lon))
+        time_df[f"local_{suntime}"] = time_df[suntime].apply(lambda dt: convert_UTC_to_local(dt, lat=lat, lon=lon))
     return time_df
 
 def verify_suntime(
