@@ -1,4 +1,5 @@
 import streamlit as st
+import altair as alt
 import pandas as pd
 import numpy as np
 from datetime import datetime, timezone, timedelta
@@ -146,7 +147,37 @@ if take_derivatives:
 tab1, tab2, tab3 = st.tabs(["Chart", "Dataframe", "Testing"])
 if len(chart_1_sets) > 0:
     chart_1_sets.append('date')
-    tab1.line_chart(these_times[chart_1_sets], x='date', x_label="Date", y_label=f"Time", height=250)
+    # tab1.line_chart(these_times[chart_1_sets], x='date', x_label="Date", y_label=f"Time", height=250)
+    # Create an Altair line chart with the selected sets, and with mouse-over tooltips showing the date and time values
+    # Melt the dataframe so that there is a "symbol" column with the set name, and a "value" column with the time value
+    chart_1_sets_melted = these_times.melt(id_vars=['date'], value_vars=chart_1_sets[:-1], var_name='symbol', value_name='value')
+    hover = alt.selection_point(
+        fields=['date'],
+        nearest=True,
+        on='mouseover',
+        empty='none',
+    )
+    lines = (
+        alt.Chart(chart_1_sets_melted, title="Suntimes")
+        .mark_line()
+        .encode(
+            x='date',
+            y='value',
+            color='symbol',
+        )
+    )
+    points = lines.transform_filter(hover).mark_circle(size=65)
+    tooltips = alt.Chart(these_times[chart_1_sets]).mark_rule().encode(
+        x='date',
+        opacity=alt.condition(hover, alt.value(0.3), alt.value(0)),
+        tooltip=[
+            alt.Tooltip('date', title='Date'),
+            alt.Tooltip(alt.repeat("column"), title="Time"),
+        ]
+    ).add_params(hover)
+    chart = lines + points + tooltips
+    tab1.altair_chart(chart, use_container_width=True)
+
 if len(chart_2_sets) > 0:
     chart_2_sets.append('date')
     tab1.line_chart(these_times[chart_2_sets], x='date', x_label="Date", y_label=f"Time", height=250)
