@@ -33,3 +33,29 @@ def melt_dataset(
         raise TypeError(f"(melt_dataset) `val_vars` must be a list. Got type: {type(val_vars)}")
     
     return df.melt(id_vars=id_vars, value_vars=val_vars, var_name='symbol', value_name='times')
+
+def time_of_day(
+    series : pd.Series,
+):
+    """ Get the time of day from a series of datetimes.
+    
+    Convert a series of time objects (including tz-aware times) to temporal datetimes for plotting.
+    
+    Parameters
+    ----------
+    series : pd.Series
+        The series of time objects or tz-aware timestamps.
+        
+    Returns
+    -------
+    pd.Series
+        The series of temporal datetimes.
+    """
+    # Verify input arguments
+    if not isinstance(series, pd.Series):
+        raise TypeError(f"(format_time_of_day) `series` must be a pandas Series. Got type: {type(series)}")
+    # Verify that the series contains time objects
+    if not all(series.apply(lambda x: isinstance(x, (datetime.time, pd._libs.tslibs.timestamps.Timestamp)) or pd.isna(x))):
+        raise TypeError(f"(format_time_of_day) `series` must contain time objects or tz-aware timestamps. Got types: {series.apply(lambda x: type(x)).unique()}")
+
+    return series.apply(lambda t: pd.NaT if pd.isna(t) else datetime.datetime.combine(datetime.datetime(2000, 1, 1), t.replace(tzinfo=None)))

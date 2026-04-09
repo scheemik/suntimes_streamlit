@@ -154,9 +154,7 @@ if len(chart_1_vars) > 0:
     # Melt the dataframe to have a "symbol" column for the suntime type and a "times" column for the time values, to use in Altair plotting.
     these_times_melted = sun_plts.format.melt_dataset(these_times, id_vars=['date'], val_vars=chart_1_vars[:-1])
     # Convert time objects (including tz-aware times) to temporal datetimes for charting.
-    chart_1_sets_melted['times_temporal'] = chart_1_sets_melted['times'].apply(
-        lambda t: pd.NaT if pd.isna(t) else datetime.combine(datetime(2000, 1, 1), t.replace(tzinfo=None))
-    )
+    these_times_melted['times_temporal'] = sun_plts.format.time_of_day(these_times_melted['times'])
     hover = alt.selection_point(
         fields=['date'],
         nearest=True,
