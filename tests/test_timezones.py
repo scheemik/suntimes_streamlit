@@ -3,39 +3,50 @@ import pandas as pd
 from numpy import nan
 
 import suntimes_streamlit.timezones as tzs 
-
-def test_get_tzinfo():
-    """Test the get_tzinfo function."""
-    # Define test cases
-    test_cases = [
-        {   # Toronto
+# Define test cases
+test_cases = {
+    "Toronto":
+        {
             "lat": 43.0,
             "lon": -79.0,
             "expected_tz_name": "America/New_York",
         },
-        {   # Halifax
+    "Cambridge Bay":
+        {
+            "lat": 69.12,
+            "lon": -105.06,
+            "expected_tz_name": "America/Denver",
+        },
+    "Halifax":
+        {
             "lat": 44.64,
             "lon": -63.57,
             "expected_tz_name": "Etc/GMT+4",
         },
-        {   # Paris
+    "Paris":
+        {
             "lat": 48.85,
             "lon": -2.35,
             "expected_tz_name": "Europe/Paris",
         },
-        {   # Rio de Janeiro
+    "Rio de Janeiro":
+        {
             "lat": -22.91,
             "lon": -43.2,
             "expected_tz_name": "America/Sao_Paulo",
         },
-        {   # Sydney
+    "Sydney":
+        {
             "lat": -33.8688,
             "lon": 151.2093,
             "expected_tz_name": "Australia/Sydney",
         },
-    ]
+}
+
+def test_get_tzinfo():
+    """Test the get_tzinfo function."""
     # Test each case
-    for case in test_cases:
+    for case in test_cases.values():
         tz_name, tz_info = tzs.get_tzinfo(case["lat"], case["lon"])
         assert tz_name == case["expected_tz_name"], f"Expected {case['expected_tz_name']}, got {tz_name}"
     # Define invalid test cases for longitude
