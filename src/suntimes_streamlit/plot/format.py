@@ -12,16 +12,16 @@ def melt_dataset(
     
     Parameters
     ----------
-    df : pd.DataFrame
+    df : `pd.DataFrame`
         The DataFrame to melt.
-    id_vars : list
+    id_vars : `list` of `str`
         The columns to use as identifier variables.
-    val_vars : list
+    val_vars : `list` of `str`
         The columns to use as value variables.
         
     Returns
     -------
-    pd.DataFrame
+    `pd.DataFrame`
         The melted DataFrame.
     """
     # Verify input arguments
@@ -29,8 +29,14 @@ def melt_dataset(
         raise TypeError(f"(melt_dataset) `df` must be a pandas DataFrame. Got type: {type(df)}")
     if not isinstance(id_vars, list):
         raise TypeError(f"(melt_dataset) `id_vars` must be a list. Got type: {type(id_vars)}")
+    else:
+        if not all(isinstance(var, str) for var in id_vars):
+            raise TypeError(f"(melt_dataset) All elements of `id_vars` must be strings. Got types: {[type(var) for var in id_vars]}")
     if not isinstance(val_vars, list):
         raise TypeError(f"(melt_dataset) `val_vars` must be a list. Got type: {type(val_vars)}")
+    else:
+        if not all(isinstance(var, str) for var in val_vars):
+            raise TypeError(f"(melt_dataset) All elements of `val_vars` must be strings. Got types: {[type(var) for var in val_vars]}")
     
     return df.melt(id_vars=id_vars, value_vars=val_vars, var_name='symbol', value_name='times')
 
