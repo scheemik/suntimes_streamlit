@@ -176,7 +176,8 @@ if len(chart_1_sets) > 0:
         x='date:T',
         opacity=alt.condition(hover, alt.value(0.3), alt.value(0)),
         tooltip=[
-            alt.Tooltip('date:T', title='Date'),
+            # Format the date in the tooltip to be DD MMM YYYY
+            alt.Tooltip('date:T', title='Date', format='%d %b %Y'),
             alt.Tooltip('symbol:N', title='Suntime'),
             alt.Tooltip('times_temporal:T', title='Time', format='%H:%M'),
         ]
