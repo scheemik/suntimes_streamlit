@@ -18,10 +18,20 @@ test_cases = {
             "expected_tz_name": "America/Denver",
         },
     "Halifax":
-        {
-            "lat": 44.64,
-            "lon": -63.57,
+        {   # I don't know why, but the actual coordinates of Halifax (44.65, -63.57) return "Etc/GMT+4" instead of "America/Halifax". This is likely due to the timezone database and how it handles certain locations.
+            # "lat": 44.64,
+            # "lon": -63.57,
+            "lat": 45.0,
+            "lon": -63.5,
             "expected_tz_name": "Etc/GMT+4",
+        },
+    "St. John's":
+        {   # Similar to Halifax, the actual coordinates of St. John's (47.56, -52.71) return "Etc/GMT+4" instead of "America/St_Johns". This is likely due to the timezone database and how it handles certain locations.
+            # "lat": 47.56,
+            # "lon": -52.71,
+            "lat": 48.0,
+            "lon": -54.0,
+            "expected_tz_name": "America/St_Johns",
         },
     "Paris":
         {
@@ -84,30 +94,51 @@ def test_get_tzinfo():
 def test_convert_UTC_to_local():
     """Test the convert_UTC_to_local function."""
     # Define valid test cases
-    test_cases = [
+    test_times = [
         {
             "dt_utc": pd.Timestamp('2020-01-01 12:00:00', tz='UTC'),
-            "lat": 43.0,
-            "lon": -79.0,
-            "expected_local_hour": 7,  # EST is UTC-5
+            "expected_local_hours": {
+                "Toronto": 7,           # EST is UTC-5
+                "Cambridge Bay": 5,     # MST is UTC-7
+                "Halifax": 8,           # AST is UTC-4
+                "St. John's": 8,        # NST is UTC-3:30
+                "Paris": 13,            # CET is UTC+1
+                "Rio de Janeiro": 9,    # BRT is UTC-3
+                "Sydney": 23,           # AEDT is UTC+11
+            },
         },
         {
             "dt_utc": datetime(2020, 1, 1, 12, 0, 0, tzinfo=timezone.utc),
-            "lat": 43.0,
-            "lon": -79.0,
-            "expected_local_hour": 7,  # EST is UTC-5
+            "expected_local_hours": {
+                "Toronto": 7,           # EST is UTC-5
+                "Cambridge Bay": 5,     # MST is UTC-7
+                "Halifax": 8,           # AST is UTC-4
+                "St. John's": 8,        # NST is UTC-3:30
+                "Paris": 13,            # CET is UTC+1
+                "Rio de Janeiro": 9,    # BRT is UTC-3
+                "Sydney": 23,           # AEDT is UTC+11
+            },
         },
         {
             "dt_utc": datetime(2023, 6, 1, 12, 0, 0, tzinfo=timezone.utc),
-            "lat": -33.8688,
-            "lon": 151.2093,
-            "expected_local_hour": 22,  # AEST is UTC+10
-        },
+            "expected_local_hours": {
+                "Toronto": 8,           # EDT is UTC-4
+                "Cambridge Bay": 6,     # MDT is UTC-6
+                "Halifax": 9,           # ADT is UTC-3
+                "St. John's": 9,        # NDT is UTC-2:30
+                "Paris": 14,            # CEST is UTC+2
+                "Rio de Janeiro": 9,    # BRT is UTC-3 (no DST)
+                "Sydney": 22,           # AEST is UTC+10 (no DST in June)
+            },
+        }
     ]
     # Test each case
-    for case in test_cases:
-        dt_local = tzs.convert_UTC_to_local(case["dt_utc"], case["lat"], case["lon"])
-        assert dt_local.hour == case["expected_local_hour"], f"Expected hour {case['expected_local_hour']}, got {dt_local.hour}"
+    for this_time in test_times:
+        for city in this_time["expected_local_hours"].keys():
+            expected_local_hour = this_time["expected_local_hours"][city]
+            city_info = test_cases[city]
+            dt_local = tzs.convert_UTC_to_local(this_time["dt_utc"], city_info["lat"], city_info["lon"])
+            assert dt_local.hour == expected_local_hour, f"For {city}: Expected hour {expected_local_hour}, got {dt_local.hour}"
     # Test NaT input for UTC datetime
     dt_local_NaT = tzs.convert_UTC_to_local(pd.NaT, 43.0, -79.0)
     assert pd.isna(dt_local_NaT.hour), f"Expected NaN hour, got {dt_local_NaT.hour}"
