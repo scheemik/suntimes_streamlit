@@ -127,6 +127,7 @@ if "Daylight" in selected_vals:
             these_times["Sunset"] = these_times[f"local_sunset"].dt.time
     these_times["Daylight"] = pd.to_timedelta(these_times["sunset"] - these_times["sunrise"])
     chart_2_sets.append("Daylight")
+    st.write(these_times["Daylight"].values[0])
 
 if take_derivatives:
     for set in selected_vals:
@@ -151,6 +152,10 @@ if len(chart_1_sets) > 0:
     # Create an Altair line chart with the selected sets, and with mouse-over tooltips showing the date and time values
     # Melt the dataframe so that there is a "symbol" column with the set name, and a "value" column with the time value
     chart_1_sets_melted = these_times.melt(id_vars=['date'], value_vars=chart_1_sets[:-1], var_name='symbol', value_name='times')
+    # Convert time objects (including tz-aware times) to temporal datetimes for charting.
+    chart_1_sets_melted['times_temporal'] = chart_1_sets_melted['times'].apply(
+        lambda t: pd.NaT if pd.isna(t) else datetime.combine(datetime(2000, 1, 1), t.replace(tzinfo=None))
+    )
     hover = alt.selection_point(
         fields=['date'],
         nearest=True,
@@ -161,18 +166,19 @@ if len(chart_1_sets) > 0:
         alt.Chart(chart_1_sets_melted, title="Suntimes")
         .mark_line()
         .encode(
-            x=alt.X('date', title='Date'),
-            y=alt.Y('times', title='Time'),
+            x=alt.X('date:T', title='Date'),
+            y=alt.Y('times_temporal:T', title='Time of Day', axis=alt.Axis(format='%H:%M')),
             color=alt.Color('symbol', title='Suntime'),
         )
     )
     points = lines.transform_filter(hover).mark_circle(size=65)
-    tooltips = alt.Chart(these_times[chart_1_sets]).mark_rule().encode(
-        x='date',
+    tooltips = alt.Chart(chart_1_sets_melted).mark_rule().encode(
+        x='date:T',
         opacity=alt.condition(hover, alt.value(0.3), alt.value(0)),
         tooltip=[
-            alt.Tooltip('date', title='Date'),
-            alt.Tooltip(alt.repeat("column"), title="Time"),
+            alt.Tooltip('date:T', title='Date'),
+            alt.Tooltip('symbol:N', title='Suntime'),
+            alt.Tooltip('times_temporal:T', title='Time', format='%H:%M'),
         ]
     ).add_params(hover)
     chart = lines + points + tooltips
@@ -185,3 +191,4 @@ if len(chart_3_sets) > 0:
     chart_3_sets.append('date')
     tab1.line_chart(these_times[chart_3_sets], x='date', x_label="Date", y_label=f"Change (minutes / day)", height=250)
 tab2.dataframe(these_times, height=250, width="stretch")
+tab2.dataframe(chart_1_sets_melted, height=250, width="stretch")
