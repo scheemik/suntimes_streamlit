@@ -12,6 +12,7 @@ tf = TimezoneFinderL(in_memory=True)
 from suntimes_streamlit import timezones as tzs
 from suntimes_streamlit import time_arrays as tarrs
 from suntimes_streamlit import dates as dts
+from suntimes_streamlit import plot as sun_plts
 
 # Insert CSS to have columns exactly fit their content
 # From: https://stackoverflow.com/questions/69492406/streamlit-how-to-display-buttons-in-a-single-line
@@ -162,7 +163,7 @@ if len(chart_1_vars) > 0:
         empty='none',
     )
     lines = (
-        alt.Chart(chart_1_vars_melted, title="Suntimes")
+        alt.Chart(these_times_melted, title="Suntimes")
         .mark_line()
         .encode(
             x=alt.X('date:T', title='Date'),
@@ -171,7 +172,7 @@ if len(chart_1_vars) > 0:
         )
     )
     points = lines.transform_filter(hover).mark_circle(size=65)
-    tooltips = alt.Chart(chart_1_vars_melted).mark_rule().encode(
+    tooltips = alt.Chart(these_times_melted).mark_rule().encode(
         x='date:T',
         opacity=alt.condition(hover, alt.value(0.3), alt.value(0)),
         tooltip=[
@@ -191,4 +192,4 @@ if len(chart_3_vars) > 0:
     chart_3_vars.append('date')
     tab1.line_chart(these_times[chart_3_vars], x='date', x_label="Date", y_label=f"Change (minutes / day)", height=250)
 tab2.dataframe(these_times, height=250, width="stretch")
-tab2.dataframe(chart_1_vars_melted, height=250, width="stretch")
+tab2.dataframe(these_times_melted, height=250, width="stretch")
