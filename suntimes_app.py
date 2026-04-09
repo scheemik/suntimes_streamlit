@@ -27,10 +27,12 @@ st.markdown("""
         </style>
         """, unsafe_allow_html=True)
 
-st.write("Streamlit supports a wide range of data visualizations, including [Plotly, Altair, and Bokeh charts](https://docs.streamlit.io/develop/api-reference/charts). 📊 And with over 20 input widgets, you can easily make your data interactive!")
+st.title("Suntimes Streamlit App")
+st.write("This is an interactive app to explore sunrise, sunset, and other sun-based times of day over time, for any location on Earth. It uses [`suncalc`](https://pypi.org/project/suncalc/) to calculate the times, and [`streamlit`](https://streamlit.io/) for the interactive interface. The source code is available on [GitHub](https://github.com/scheemik/suntimes_streamlit).")
 
+st.header("Define Parameters")
 with st.container(border=True):
-    st.title("Select Location")
+    st.subheader("Select Location")
     st.write("Select a location by latitude and longitude:")
     colA, colB = st.columns([1,1])
     with colA:
@@ -41,7 +43,7 @@ with st.container(border=True):
     st.write(f"Timezone: {tz_name}")
 
 with st.container(border=True):
-    st.title("Select Time Frame")
+    st.subheader("Select Time Frame")
     st.write("Select the time frame over which to plot:")
     # Default to starting three months ago and ending nine months from now
     current_date = datetime.now().date()
@@ -82,7 +84,7 @@ possible_suncalc_vals = list(tarrs.valid_suncalc_attrs.values())
 # Add "Daylight" as an option
 possible_data_vars = possible_suncalc_vals + ["Daylight"]
 with st.container(border=True):
-    st.title("Select Attributes to Display")
+    st.subheader("Select Attributes to Display")
     selected_vars = st.multiselect("Data to display:", possible_data_vars, default=possible_data_vars[2:4])
     take_derivatives = st.toggle("Take derivatives", value=False)
 
