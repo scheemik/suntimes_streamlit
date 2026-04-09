@@ -1,8 +1,16 @@
 from datetime import timezone, tzinfo, timedelta, datetime
-from timezonefinder import TimezoneFinderL
+from timezonefinder import TimezoneFinderL, data
 tf = TimezoneFinderL(in_memory=True)
 from pandas import Timestamp, NaT
 from numpy import nan
+
+# Get a list of all the timezone names from the timezonefinder data
+from importlib import resources as impresources
+
+timezone_txt = impresources.files(data) / 'timezone_names.txt'
+with timezone_txt.open("rt") as f:
+    # Read in the file as a list of lines
+    timezone_list = f.read().splitlines()
 
 def get_tzinfo(
     lat: float,
