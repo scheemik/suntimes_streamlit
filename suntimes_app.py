@@ -150,7 +150,7 @@ if len(chart_1_sets) > 0:
     # tab1.line_chart(these_times[chart_1_sets], x='date', x_label="Date", y_label=f"Time", height=250)
     # Create an Altair line chart with the selected sets, and with mouse-over tooltips showing the date and time values
     # Melt the dataframe so that there is a "symbol" column with the set name, and a "value" column with the time value
-    chart_1_sets_melted = these_times.melt(id_vars=['date'], value_vars=chart_1_sets[:-1], var_name='symbol', value_name='value')
+    chart_1_sets_melted = these_times.melt(id_vars=['date'], value_vars=chart_1_sets[:-1], var_name='symbol', value_name='times')
     hover = alt.selection_point(
         fields=['date'],
         nearest=True,
@@ -161,9 +161,9 @@ if len(chart_1_sets) > 0:
         alt.Chart(chart_1_sets_melted, title="Suntimes")
         .mark_line()
         .encode(
-            x='date',
-            y='value',
-            color='symbol',
+            x=alt.X('date', title='Date'),
+            y=alt.Y('times', title='Time'),
+            color=alt.Color('symbol', title='Suntime'),
         )
     )
     points = lines.transform_filter(hover).mark_circle(size=65)
