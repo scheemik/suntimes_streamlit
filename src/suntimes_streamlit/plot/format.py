@@ -49,12 +49,12 @@ def time_of_day(
     
     Parameters
     ----------
-    series : pd.Series
+    series : `pd.Series`
         The series of time objects or tz-aware timestamps.
         
     Returns
     -------
-    pd.Series
+    `pd.Series`
         The series of temporal datetimes.
     """
     # Verify input arguments
