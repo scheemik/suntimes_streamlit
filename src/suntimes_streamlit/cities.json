@@ -1,0 +1,422 @@
+{
+  "Africa, Ivory Coast, Abidjan": {
+    "tz_name": "Africa/Abidjan",
+    "lat": 5.316667,
+      "lon": -4.033333,
+      "UTC_offset": 0
+  },
+  "Africa, Ghana, Accra": {
+    "tz_name": "Africa/Accra",
+    "lat": 5.55,
+    "lon": -0.2,
+    "UTC_offset": 0
+  },
+  "Africa, Ethiopia, Addis Ababa": {
+    "tz_name": "Africa/Addis_Ababa",
+    "lat": 9.03,
+    "lon": 38.74,
+    "UTC_offset": 3
+  },
+  "Africa, Algeria, Algiers": {
+    "tz_name": "Africa/Algiers",
+    "lat": 36.7325,
+    "lon": 3.087222,
+    "UTC_offset": 1
+  },
+  "Africa, Eritrea, Asmara": {
+    "tz_name": "Africa/Asmara",
+    "lat": 15.335833,
+    "lon": 38.941111,
+    "UTC_offset": 3
+  },
+  "Africa, Mali, Bamako": {
+    "tz_name": "Africa/Bamako",
+    "lat": 12.639167,
+    "lon": -8.002778,
+    "UTC_offset": 0
+  },
+  "Africa, Central African Republic, Bangui": {
+    "tz_name": "Africa/Bangui",
+    "lat": 4.373333,
+    "lon": 18.562778,
+    "UTC_offset": 1
+  },
+  "Africa, The Gambia, Banjul": {
+    "tz_name": "Africa/Banjul",
+    "lat": 13.454167,
+    "lon": -16.575278,
+    "UTC_offset": 0
+  },
+  "Africa, Guinea-Bissau, Bissau": {
+    "tz_name": "Africa/Bissau",
+    "lat": 11.86,
+    "lon": -15.583333,
+    "UTC_offset": 0
+  },
+  "Africa, Malawi, Blantyre": {
+    "tz_name": "Africa/Blantyre",
+    "lat": -15.786111,
+    "lon": 35.005833,
+    "UTC_offset": 2
+  },
+  "Africa, Republic of the Congo, Brazzaville": {
+    "tz_name": "Africa/Brazzaville",
+    "lat": -4.266667,
+    "lon": 15.266667,
+    "UTC_offset": 1
+  },
+  "Africa, Burundi, Bujumbura": {
+    "tz_name": "Africa/Bujumbura",
+    "lat": -3.383333,
+    "lon": 29.366667,
+    "UTC_offset": 2
+  },
+  "Africa, Egypt, Cairo": {
+    "tz_name": "Africa/Cairo",
+    "lat": 30.044444,
+    "lon": 31.235833,
+    "UTC_offset": 2
+  },
+  "Africa, Morocco, Casablanca": {
+    "tz_name": "Africa/Casablanca",
+    "lat": 33.533333,
+    "lon": -7.583333,
+    "UTC_offset": 0
+  },
+  "Africa, Spain, Ceuta": {
+    "tz_name": "Africa/Ceuta",
+    "lat": 35.888333,
+    "lon": -5.315556,
+    "UTC_offset": 1
+  },
+  "Africa, Guinea, Conakry": {
+    "tz_name": "Africa/Conakry",
+    "lat": 9.509167,
+    "lon": -13.712222,
+    "UTC_offset": 0
+  },
+  "Africa, Senegal, Dakar": {
+    "tz_name": "Africa/Dakar",
+    "lat": 14.692778,
+    "lon": -17.446667,
+    "UTC_offset": 0
+  },
+  "Africa, Tanzania, Dar es Salaam": {
+    "tz_name": "Africa/Dar_es_Salaam",
+    "lat": -6.816111,
+    "lon": 39.280278,
+    "UTC_offset": 3
+  },
+  "Africa, Djibouti, Djibouti City": {
+    "tz_name": "Africa/Djibouti",
+    "lat": 11.594444,
+    "lon": 43.148056,
+    "UTC_offset": 3
+  },
+  "Africa, Cameroon, Douala": {
+    "tz_name": "Africa/Douala",
+    "lat": 4.050833,
+    "lon": 9.767778,
+    "UTC_offset": 1
+  },
+  "Africa, Western Sahara, El Aaiun / Laayoune": {
+    "tz_name": "Africa/El_Aaiun",
+    "lat": 27.15,
+    "lon": -13.198889,
+    "UTC_offset": 0
+  },
+  "Africa, Sierra Leone, Freetown": {
+    "tz_name": "Africa/Freetown",
+    "lat": 8.487222,
+    "lon": -13.235556,
+    "UTC_offset": 0
+  },
+  "Africa, Botswana, Gaborone": {
+    "tz_name": "Africa/Gaborone",
+    "lat": -24.658056,
+    "lon": 25.912222,
+    "UTC_offset": 2
+  },
+  "Africa, Zimbabwe, Harare": {
+    "tz_name": "Africa/Harare",
+    "lat": -17.829167,
+    "lon": 31.052222,
+    "UTC_offset": 2
+  },
+  "Africa, South Africa, Johannesburg": {
+    "tz_name": "Africa/Johannesburg",
+    "lat": -26.204444,
+    "lon": 28.045556,
+    "UTC_offset": 2
+  },
+  "Africa, South Sudan, Juba": {
+    "tz_name": "Africa/Juba",
+    "lat": 4.8539,
+    "lon": 31.5825,
+    "UTC_offset": 2
+  },
+  "Africa, Uganda, Kampala": {
+    "tz_name": "Africa/Kampala",
+    "lat": 0.313611,
+    "lon": 32.581111,
+    "UTC_offset": 3
+  },
+  "Africa, Sudan, Khartoum": {
+    "tz_name": "Africa/Khartoum",
+    "lat": 15.6,
+    "lon": 32.5,
+    "UTC_offset": 2
+  },
+  "Africa, Rwanda, Kigali": {
+    "tz_name": "Africa/Kigali",
+    "lat": -1.9525,
+    "lon": 30.115,
+    "UTC_offset": 2
+  },
+  "Africa, Democratic Republic of the Congo, Kinshasa": {
+    "tz_name": "Africa/Kinshasa",
+    "lat": -4.321944,
+    "lon": 15.311944,
+    "UTC_offset": 1
+  },
+  "Africa, Nigeria, Lagos": {
+    "tz_name": "Africa/Lagos",
+    "lat": 6.456111,
+    "lon": 3.393611,
+    "UTC_offset": 1
+  },
+  "Africa, Gabon, Libreville": {
+    "tz_name": "Africa/Libreville",
+    "lat": 0.407778,
+    "lon": 9.440278,
+    "UTC_offset": 1
+  },
+  "Africa, Togo, Lome": {
+    "tz_name": "Africa/Lome",
+    "lat": 6.130833,
+    "lon": 1.215278,
+    "UTC_offset": 0
+  },
+  "Africa, Angola, Luanda": {
+    "tz_name": "Africa/Luanda",
+    "lat": -8.838333,
+    "lon": 13.234444,
+    "UTC_offset": 1
+  },
+  "Africa, Democratic Republic of the Congo, Lubumbashi": {
+    "tz_name": "Africa/Lubumbashi",
+    "lat": -11.664167,
+    "lon": 27.482778,
+    "UTC_offset": 2
+  },
+  "Africa, Zambia, Lusaka": {
+    "tz_name": "Africa/Lusaka",
+    "lat": -15.416667,
+    "lon": 28.283333,
+    "UTC_offset": 2
+  },
+  "Africa, Equatorial Guinea, Malabo": {
+    "tz_name": "Africa/Malabo",
+    "lat": 3.745556,
+    "lon": 8.774444,
+    "UTC_offset": 1
+  },
+  "Africa, Mozambique, Maputo": {
+    "tz_name": "Africa/Maputo",
+    "lat": -25.966667,
+    "lon": 32.583333,
+    "UTC_offset": 2
+  },
+  "Africa, Lesotho, Maseru": {
+    "tz_name": "Africa/Maseru",
+    "lat": -29.315,
+    "lon": 27.486944,
+    "UTC_offset": 2
+  },
+  "Africa, Eswatini, Mbabane": {
+    "tz_name": "Africa/Mbabane",
+    "lat": -26.326111,
+    "lon": 31.143889,
+    "UTC_offset": 2
+  },
+  "Africa, Somalia, Mogadishu": {
+    "tz_name": "Africa/Mogadishu",
+    "lat": 2.039167,
+    "lon": 45.341944,
+    "UTC_offset": 3
+  },
+  "Africa, Liberia, Monrovia": {
+    "tz_name": "Africa/Monrovia",
+    "lat": 6.313333,
+    "lon": -10.801389,
+    "UTC_offset": 0
+  },
+  "Africa, Kenya, Nairobi": {
+    "tz_name": "Africa/Nairobi",
+    "lat": -1.286389,
+    "lon": 36.817222,
+    "UTC_offset": 3
+  },
+  "Africa, Chad, Ndjamena": {
+    "tz_name": "Africa/Ndjamena",
+    "lat": 12.105278,
+    "lon": 15.044722,
+    "UTC_offset": 1
+  },
+  "Africa, Niger, Niamey": {
+    "tz_name": "Africa/Niamey",
+    "lat": 13.513611,
+    "lon": 2.108889,
+    "UTC_offset": 1
+  },
+  "Africa, Mauritania, Nouakchott": {
+    "tz_name": "Africa/Nouakchott",
+    "lat": 18.085278,
+    "lon": -15.9725,
+    "UTC_offset": 0
+  },
+  "Africa, Burkina Faso, Ouagadougou": {
+    "tz_name": "Africa/Ouagadougou",
+    "lat": 12.368611,
+    "lon": -1.5275,
+    "UTC_offset": 0
+  },
+  "Africa, Benin, Porto-Novo": {
+    "tz_name": "Africa/Porto-Novo",
+    "lat": 6.497222,
+    "lon": 2.605,
+    "UTC_offset": 1
+  },
+  "Africa, Sao Tome and Principe, Sao Tome": {
+    "tz_name": "Africa/Sao_Tome",
+    "lat": 0.3375,
+    "lon": 6.728333,
+    "UTC_offset": 0
+  },
+  "Africa, Libya, Tripoli": {
+    "tz_name": "Africa/Tripoli",
+    "lat": 32.887222,
+    "lon": 13.191389,
+    "UTC_offset": 2
+  },
+  "Africa, Tunisia, Tunis": {
+    "tz_name": "Africa/Tunis",
+    "lat": 36.806389,
+    "lon": 10.181667,
+    "UTC_offset": 1
+  },
+  "Africa, Namibia, Windhoek": {
+    "tz_name": "Africa/Windhoek",
+    "lat": -22.57,
+    "lon": 17.083611,
+    "UTC_offset": 2
+  },
+  "America, United States, Adak": {
+    "tz_name": "America/Adak",
+    "lat": 51.878056,
+    "lon": -176.646111,
+    "UTC_offset": -10
+  },
+  "America, United States, Anchorage": {
+    "tz_name": "America/Anchorage",
+    "lat": 61.216667,
+    "lon": -149.893611,
+    "UTC_offset": -9
+  },
+  "America, United Kingdom, Anguilla": {
+    "tz_name": "America/Anguilla",
+    "lat": 18.220833,
+    "lon": -63.051667,
+    "UTC_offset": -4
+  },
+  "America, Antigua and Barbuda, St. John's": {
+    "tz_name": "America/Antigua",
+    "lat": 17.127222,
+    "lon": -61.846667,
+    "UTC_offset": -4
+  },
+  "America, Aruba, Oranjestad": {
+    "tz_name": "America/Aruba",
+    "lat": 12.518611,
+    "lon": -70.035833,
+    "UTC_offset": -4
+  },
+  "America, Brazil, Araguaina": {
+    "tz_name": "America/Araguaina",
+    "lat": -7.190833,
+    "lon": -48.206944,
+    "UTC_offset": -2
+  },
+  "America, Argentina, Buenos Aires": {
+    "tz_name": "America/Argentina/Buenos_Aires",
+    "lat": -34.603889,
+    "lon": -58.381389,
+    "UTC_offset": -3
+  },
+  "America, Argentina, Catamarca": {
+    "tz_name": "America/Argentina/Catamarca",
+    "lat": -28.466667,
+    "lon": -65.783333,
+    "UTC_offset": -3
+  },
+  "America, Argentina, Cordoba": {
+    "tz_name": "America/Argentina/Cordoba",
+    "lat": -31.416667,
+    "lon": -64.183333,
+    "UTC_offset": -3
+  },
+  "America, Argentina, Jujuy": {
+    "tz_name": "America/Argentina/Jujuy",
+    "lat": -24.183333,
+    "lon": -65.3,
+    "UTC_offset": -3
+  },
+  "America, Argentina, La Rioja": {
+    "tz_name": "America/Argentina/La_Rioja",
+    "lat": -29.4125,
+    "lon": -66.854167,
+    "UTC_offset": -3
+  },
+  "America, Argentina, Mendoza": {
+    "tz_name": "America/Argentina/Mendoza",
+    "lat": -32.889722,
+    "lon": -68.844444,
+    "UTC_offset": -3
+  },
+  "America, Argentina, Rio Gallegos": {
+    "tz_name": "America/Argentina/Rio_Gallegos",
+    "lat": -51.623333,
+    "lon": -69.216111,
+    "UTC_offset": -3
+  },
+  "America, Argentina, Salta": {
+    "tz_name": "America/Argentina/Salta",
+    "lat": -24.783333,
+    "lon": -65.416667,
+    "UTC_offset": -3
+  },
+  "America, Argentina, San Juan": {
+    "tz_name": "America/Argentina/San_Juan",
+    "lat": -31.534167,
+    "lon": -68.526111,
+    "UTC_offset": -3
+  },
+  "America, Argentina, San Luis": {
+    "tz_name": "America/Argentina/San_Luis",
+    "lat": -33.3,
+    "lon": -66.333333,
+    "UTC_offset": -3
+  },
+  "America, Argentina, Tucuman": {
+    "tz_name": "America/Argentina/Tucuman",
+    "lat": -26.833056,
+    "lon": -65.216667,
+    "UTC_offset": -3
+  },
+  "America, Argentina, Ushuaia": {
+    "tz_name": "America/Argentina/Ushuaia",
+    "lat": -54.801944,
+    "lon": -68.303056,
+    "UTC_offset": -3
+  }
+}
