@@ -34,15 +34,36 @@ st.write("This is an interactive app to explore sunrise, sunset, and other sun-b
 st.header("Define Parameters")
 with st.container(border=True):
     st.subheader("Select Location")
-    st.write("Select a location by latitude and longitude:")
-    colA, colB = st.columns([1,1])
-    with colA:
-        lat = st.number_input("Latitude:", value=43.0, format="%.6f")
-    with colB:
-        lon = st.number_input("Longitude:", value=-79.0, format="%.6f")
-    tz_name = tzs.get_tzname(lat, lon)
-    tz_info = tzs.get_tzinfo(tz_name=tz_name)
-    st.write(f"Timezone: {tz_name}")
+    # Create a switch to toggle between selecting a city name or selecting a location by latitude and longitude
+    use_tz_name = st.toggle("Select by latitude and longitude", value=False)
+    if use_tz_name:
+        st.write("Select a location by latitude and longitude:")
+        colA, colB = st.columns([1,1])
+        with colA:
+            lat = st.number_input("Latitude:", value=43.0, format="%.6f")
+        with colB:
+            lon = st.number_input("Longitude:", value=-79.0, format="%.6f")
+        tz_name = tzs.get_tzname(lat, lon)
+        tz_info = tzs.get_tzinfo(tz_name=tz_name)
+        st.write(f"Timezone: {tz_name}")
+    else:
+        # tz_name = st.selectbox("Select a city:", tzs.timezone_list, index=tzs.timezone_list.index("America/Toronto"))
+        this_city = st.selectbox("Select a city:", list(tzs.cities_dict.keys()), index=list(tzs.cities_dict.keys()).index("America, Argentina, Ushuaia"))
+        tz_name = tzs.cities_dict[this_city]["tz_name"]
+        # Get the latitude and longitude for this city
+        lat = tzs.cities_dict[this_city]["lat"]
+        lon = tzs.cities_dict[this_city]["lon"]
+
+        # Display the difference in time between this timezone and UTC
+        local_time = tzs.convert_UTC_to_local(datetime(2000, 1, 1, 0, 0, 0), tz_name=tz_name)
+        # Get the offset in hours and minutes
+        utc_offset = local_time.utcoffset().total_seconds() / 3600
+        # utc_offset = local_time.utcoffset()
+        st.write(f"Timezone: {tz_name} (UTC {utc_offset})")
+        # tz_diff = local_time - datetime(2000, 1, 1, 0, 0, 0)
+        # st.write(f"Timezone: {tz_name} (UTC{tz_diff})")
+        tz_info = tzs.get_tzinfo(tz_name=tz_name)
+        st.write(f"Latitude: {lat}, Longitude: {lon}")
 
 with st.container(border=True):
     st.subheader("Select Time Frame")

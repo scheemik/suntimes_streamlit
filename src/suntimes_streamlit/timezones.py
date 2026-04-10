@@ -3,14 +3,20 @@ from timezonefinder import TimezoneFinderL, data
 tf = TimezoneFinderL(in_memory=True)
 from pandas import Timestamp, NaT
 from numpy import nan
+import json
 
 # Get a list of all the timezone names from the timezonefinder data
 from importlib import resources as impresources
-
 timezone_txt = impresources.files(data) / 'timezone_names.txt'
 with timezone_txt.open("rt") as f:
     # Read in the file as a list of lines
     timezone_list = f.read().splitlines()
+
+# Get a dictionary of cities and their corresponding information
+from suntimes_streamlit import data as suntimes_data
+cities_json = impresources.files(suntimes_data) / 'cities.json'
+with cities_json.open("rt") as f:
+    cities_dict = json.load(f)
 
 def get_tzname(
     lat: float,
